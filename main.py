@@ -13,13 +13,10 @@ metTopsisColASq = np.square(metTopsisColA) #todos os valores da matriz ao quadra
 metTopsisColASum = metTopsisColASq.sum() #soma de todos valores da matriz por coluna
 
 normalizacao = []
+PESOS = float(1/8)
 
 for i in metTopsisColASum:
     normalizacao.append(float((f'{np.sqrt(i):.2f}'))) #faz a raiz quadrada em cada valor da soma de cada coluna individualmente, os valores têm duas casas decimais
-
-PESOS = float(1/8)
-
-#print(normalizacao) #debugando valores batem com a planilha
 
 #QUADRO 2 - CRITÉRIOS 
 quadro2 = {}
@@ -29,16 +26,14 @@ for col in range(metTopsisColA.shape[1]):
     for lin in range(metTopsisColA.shape[0]):
         quadro2[f'coluna{col}'].append(round((metTopsisColA.iloc[lin,col]/normalizacao[col]*PESOS),4))
 
-idealPosNeg = [[],[]] #criei esse array duplo pra que não fosse preciso criar dois laços pra min() e max() 
+idealPosNeg = [[],[]] #array duplo para não ter a necessidade de criar dois laços pra "min() e max()"
 quadro2Dtf = pd.DataFrame(quadro2)
 
 for i in quadro2.keys(): #lista 1 recebe os valores max (ideal positiva) e a lista 2 recebe os minimos (ideal negativa)
-    #o condicional inverte o min e máx de acordo com a legenda de critérios
+    #o condicional inverte o min e máx de acordo com a legenda de critérios (pra ficar mais dinâmico pode ser necessário mudar os teste de condicionais, obs planilha)
     if i == 'coluna5' or i == 'coluna6' or i == 'coluna7':
         quadro2[i].append(quadro2Dtf[i].min())
         quadro2[i].append(quadro2Dtf[i].max())
-        #idealPosNeg[0].append(quadro2Dtf[i].min())
-        #idealPosNeg[1].append(quadro2Dtf[i].max())
     else: 
         quadro2[i].append(quadro2Dtf[i].max())
         quadro2[i].append(quadro2Dtf[i].min())
@@ -66,6 +61,7 @@ quadro2['coluna10'] = dMaisDMenos[2]
 
 #Ranqueamento TOPSIS
 #deixando a tabela com mesmo número de linhas pra cada coluna (pra que se possa transformar em dataframe)
+#uma alternativa a isso seria anteriormente criar uma planilha paralela com a normalização separada da "original", apenas pra fins de cálculo
 for i in quadro2.keys():
     if not(i== 'coluna8' or i == 'coluna9' or i == 'coluna10'):
         quadro2[i].pop()
@@ -73,11 +69,11 @@ for i in quadro2.keys():
 
 quadro2Dtf = pd.DataFrame(quadro2)
 
-#ordenação:
+#ordenação/ranqueamento pelo D:
 ranqTopsis = quadro2Dtf.sort_values(by = 'coluna10', ascending= False)
 ranqTopsisInvertido = quadro2Dtf.sort_values(by = 'coluna10') #ranqueado, porém tá de trás pra frente
 
-#debugar mostrar tabela ordenada
+#debug mostrar tabela ordenada (os prints devem ser excluídos futuramente)
 print(ranqTopsis) 
 print(ranqTopsisInvertido)
 
