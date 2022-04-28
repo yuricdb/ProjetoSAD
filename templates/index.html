@@ -8,59 +8,62 @@
 
 <body>
     <div id="app">
-        <section class="columns">
-            <section class="column is-4-desktop">
-                <section class="center">
-                    <b-image
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Bras%C3%A3o_da_UFPE.png/1200px-Bras%C3%A3o_da_UFPE.png"
-                        alt="The Buefy Logo"
-                        style="width:25%"
-                    ></b-image>
+        <form action="https://google.com/"  method="post">
+            <section class="columns">
+                <section class="column is-4-desktop">
+                    <section class="center">
+                        <b-image
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Bras%C3%A3o_da_UFPE.png/1200px-Bras%C3%A3o_da_UFPE.png"
+                            alt="The Buefy Logo"
+                            style="width:25%"
+                        ></b-image>
+                    </section>
+                    <section>
+                        <b-field class="file is-primary" label="Arquivo" horizontal :class="{'has-name': !!file}">
+                            <b-upload  name="file" v-model="file" class="file-label" accept=".xlsx" required validationMessage="Please select a file">
+                                <span class="file-cta">
+                                    <b-icon class="file-icon" icon="upload"></b-icon>
+                                    <span class="file-label">Clique para upload (Somente .xlsx)</span>
+                                </span>
+                                <span class="file-name" v-if="file">
+                                    <b-icon
+                                        style="height: 1.5rem !important;"
+                                        pack="fas"
+                                        icon="check"
+                                        size="is-large"
+                                        type="is-success">
+                                    </b-icon>
+                                </span>
+                            </b-upload>
+                        </b-field>
+                    </section>
+                    <section>
+                        <b-field horizontal label="Input 2">
+                            <b-input v-model="name"></b-input>
+                        </b-field>
+                    </section>
+                    <section>
+                        <b-field horizontal label="Método">
+                            <b-select placeholder="Selecione um método" required>
+                                <option value="1">Topsis</option>
+                                <option value="2">PLI</option>
+                            </b-select>
+                        </b-field>
+                    </section>
+                    <section>
+                        <b-field horizontal>
+                            <p class="control">
+                                <button  id="submit" name="submit" class="button is-primary" type="submit">Gerar Relatório</button>
+                            </p>
+                        </b-field>
+                    </section>
                 </section>
-                <section>
-                    <b-field class="file is-primary" label="Arquivo" horizontal :class="{'has-name': !!file}">
-                        <b-upload v-model="file" class="file-label" accept=".xlsx" required validationMessage="Please select a file">
-                            <span class="file-cta">
-                                <b-icon class="file-icon" icon="upload"></b-icon>
-                                <span class="file-label">Clique para upload (Somente .xlsx)</span>
-                            </span>
-                            <span class="file-name" v-if="file">
-                                <b-icon
-                                    style="height: 1.5rem !important;"
-                                    pack="fas"
-                                    icon="check"
-                                    size="is-large"
-                                    type="is-success">
-                                </b-icon>
-                            </span>
-                        </b-upload>
-                    </b-field>
-                </section>
-                <section>
-                    <b-field horizontal label="Input 2">
-                        <b-input v-model="name"></b-input>
-                    </b-field>
-                </section>
-                <section>
-                    <b-field horizontal label="Método">
-                        <b-select placeholder="Selecione um método">
-                            <option value="1">Topsis</option>
-                            <option value="2">PLI</option>
-                        </b-select>
-                    </b-field>
-                </section>
-                <section>
-                    <b-field horizontal>
-                        <p class="control">
-                            <b-button label="Gerar relatório" type="is-primary" />
-                        </p>
-                    </b-field>
+                <section class="column is-8-desktop output">
+                    Resultado:
                 </section>
             </section>
-            <section class="column is-8-desktop output">
-                Resultado:
-            </section>
-        </section>
+        </form>
+
     </div>
     <script src="https://unpkg.com/vue@2"></script>
     <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
@@ -95,5 +98,25 @@
     .output {
         border: 1px solid black !important;
     }
+
+    .button.is-primary {
+  background-color: #7957d5;
+  border-color: transparent;
+  color: #fff;
+}
+.button {
+  background-color: #fff;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  color: #363636;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: calc(.5em - 1px);
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: calc(.5em - 1px);
+  text-align: center;
+  white-space: nowrap;
+}
 </style>
 
