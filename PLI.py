@@ -5,9 +5,11 @@ import sys
 class metodo_PLI:
     #Constructor
     def __int__(self):
-        sys.setrecursionlimit(1000)
+        #sys.setrecursionlimit(1000)
+        print('===== Inicializando método PLI =====')
 
     def PLI(self, restListInput): #arquivo vem aqui e pesos que quiser customizar
+        #arquivo = arquivo
         # COLOCAR O ´compareTrigger´ = 1 para testes
         compareTrigger = 0
         df = pd.read_excel("modelo.xlsx", sheet_name=3)
@@ -115,19 +117,20 @@ class metodo_PLI:
         xr2 = dict(zip(projectList, xr2List))
         xr3 = dict(zip(projectList, xr3List))
 
-        # Criação das variáveis de decisão para números inteiro
+        # Criação das variáveis de decisão para números inteiros
         projects_vars = LpVariable.dicts("Projects", projectList, lowBound=0, cat='Integer')
 
         #Checando se inputaram alguma restrição
-        inputTest = [x for x in restListInput if x != 'default input value']
+        inputTest = [x for x in restListInput if x != '']
         if not inputTest:
+            print('NO INPUTS TO COMPARE')
             pass
         else:
             #Caso tenham inputado, trigger de comparação vai pra 1 e retorna os valores das 2 props
             compareTrigger = 1
             cont = 0
             for x in restListInput:
-                if x != 'default input value':
+                if x != '':
                     restList2[cont] = x
                     cont=cont+1
                 else:
@@ -154,10 +157,13 @@ class metodo_PLI:
             LpStatus[status]
 
             # Projetos selecionados
+            selected2 = []
             print('PROJETOS SELECIONADOS PARA OS PESOS SELECIONADOS PELO USUÁRIO')
             for p in prop2.variables():
                 if p.varValue > 0:
-                    print(p.name)
+                    stringName = str(p.name)
+                    selected2.append(stringName)
+                    print(stringName)
             print()
 
         # Criando o problema de LP com o método LpProblem do pulp
@@ -182,17 +188,20 @@ class metodo_PLI:
         LpStatus[status]
 
         # Projetos selecionados
+        selected = []
         print('PROJETOS SELECIONADOS')
         for p in prop.variables():
             if p.varValue > 0:
-                print(p.name)
+                stringName = str(p.name)
+                selected.append(stringName)
+                print(stringName)
 
         # Return dos objetivos da prop, 0 = sem comparação, 1 = com input do usuário, comparação
         if compareTrigger == 0:
-            print(value(prop.objective))
+            return "<p>" + str(value(prop.objective)) + "</p> <br>", "<p>" + str(selected) + "</p> <br>"
         elif compareTrigger == 1:
-            print(value(prop.objective), value(prop2.objective))
+            return "<p>" + str(value(prop.objective)) + "</p> <br>", "<p>" + str(selected) + "</p> <br>", "<p>" + str(value(prop2.objective)) + "</p> <br>", "<p>" + str(selected2) + "</p> <br>"
 
-# EXEMPLO TESTE
-# pli = metodo_PLI()
-# pli.PLI([1653654, 823459, 6234, 3213, 5, 1, 1, 1, 1, 1, 1, 400])
+ #EXEMPLO TESTE
+#pli = metodo_PLI()
+#print(pli.PLI([1653654, 823459, 6234, 3213, 5, 1, 1, 1, 1, 1, 1, 400]))
