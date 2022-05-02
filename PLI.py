@@ -115,7 +115,7 @@ class metodo_PLI:
         xr2 = dict(zip(projectList, xr2List))
         xr3 = dict(zip(projectList, xr3List))
 
-        # Criação das variáveis de decisão para números inteiros
+        # Criação das variáveis de decisão para números inteiro
         projects_vars = LpVariable.dicts("Projects", projectList, lowBound=0, cat='Integer')
 
         #Checando se inputaram alguma restrição

@@ -3,7 +3,7 @@ import numpy as np
 #MÉTODO TOPSIS
 ## QUADRO 1 - CRITÉRIOS
 
-nomeArq = "modelo.xlsx" #qualquer erro de importação, alterar o local do arquivo pra o caminho completo.
+nomeArq = "modelo.xlsx" #qualquer erro de importação, alterar o local do arquivo pra o caminho completo
 projeto = []
 
 df = pd.read_excel(f"{nomeArq}") #add o parametro  sheet_name =  para abrir outras abas da planilha
